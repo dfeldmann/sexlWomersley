@@ -1,0 +1,29 @@
+/*****************************************************************************\
+
+   + case.in
+
+   + input file for osciPipeFlow6.cpp
+
+   + calculate analytical solution of the Navier-Stokes equation for a laminar
+     oscillating flow of a viscouse fluid in a rigid and straight circular pipe
+     geometry  
+
+   + daniel feldmann - 23rd february 2011
+
+\******************************************************************************/
+
+// flow properties
+reynoldsNumber         7736.14
+womersleyNumber          30
+
+// discretisation
+nPointsRadius           1000
+nPointsCycle           1000
+
+// output
+referenceVelocity      uTau    // ( uTau, uPeak )
+writeProfile              0    // ( 0, 1, 2 )  
+
+/******************************************************************************\
+   end of file
+\******************************************************************************/

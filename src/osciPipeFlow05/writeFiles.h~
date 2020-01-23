@@ -1,0 +1,281 @@
+/*****************************************************************************\
+
+   + writeFile.h
+
+   + write radial velocity profile u(r,t) for time step t to file
+     filename  : u.tttt.dat
+     1st column: radial position (x axis)
+     2nd column: velocity        (y axis)
+
+
+
+   + daniel feldmann - 21st may 2010
+
+\******************************************************************************/
+
+#ifndef writeFiles_HEADER
+#define writeFiles_HEADER
+
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+#include <sstream>
+#include <string>
+
+// write radial velocity profile u(r,t) for time step t to file
+
+void writeU( double *u, double *r, int nr, int it, int writeProfile)
+{
+
+ if ( 0 < writeProfile )                              // output file requested ?
+ {
+ 
+  stringstream fileString ;
+  string       fileName ;
+  ofstream     fileStream ;
+
+  // construct file name
+ 
+  fileString.clear() ;                               // delete previous contents
+  fileString << "u." ;                                          // set base name
+  fileString <<  setfill('0') << setw(4) << it ;          // add time step label
+  fileString << ".dat" ;                                           // add suffix
+  fileString >> fileName ;
+
+  fileStream.open( fileName.c_str() ) ;
+
+  if ( fileStream )                                                // file good?
+  {
+ 
+   fileStream << left << scientific << setprecision(10) << showpos ;   // format
+  
+   // write values for each radial position
+  
+   if ( 2 > writeProfile )                            // full profile requested?
+   {
+    
+     for ( int j = nr  ; j > 0; --j )            // complete profile (r = 0..-R)
+     {
+    
+      fileStream << setw(20) << u[j] ;                               // velocity
+      fileStream << setw(20) << -1.0 * r[j] ;                        // position
+      fileStream << endl ;
+  
+     }
+   
+   }
+  
+   for ( int j = 0; j < nr + 1; ++j )         // write radial profile (r = 0..R)
+   {
+    
+    fileStream << setw(20) << u[j] ;                                 // velocity
+    fileStream << setw(20) << r[j] ;                                 // position
+    fileStream << endl ;
+  
+   }
+
+   fileStream.close() ;
+
+  }
+  else                                                               // file bad!
+  {
+   cerr << " Output error with file: " << fileName << endl ;
+  }
+
+ }                                                     // end of output requested
+
+}                                                              // end of function
+
+// write oscillatory velocity properties over time t to file
+
+void writeOsci( double *uCenterLine,  double *uMean, 
+		double *uGradWall,    double *uTau,
+		double *t, int nt )
+{
+
+ stringstream fileString ;
+ string       fileName ;
+ ofstream     fileStream ;
+
+ // construct file name
+ 
+ fileString.clear() ;                                // delete previous contents
+ fileString << "u.osci" ;                                       // set base name
+ //fileString <<  setfill('0') << setw(4) << it ;         // add time step label
+ fileString << ".dat" ;                                            // add suffix
+ fileString >> fileName ;
+
+ fileStream.open( fileName.c_str() ) ;
+
+ if ( fileStream )                                                 // file good?
+ {
+ 
+  fileStream << left << scientific << setprecision(10) << showpos ;// set format
+  
+  // write values for each time step
+  
+  for ( int i = 0; i < nt; ++i )
+  {
+    
+   fileStream << setw(20) << t[i] ;                                 // time, [s]
+   fileStream << setw(20) << uCenterLine[i] ;     // center line velocity, [m/s]
+   fileStream << setw(20) << uMean[i] ;  // cross-sectional mean velocity, [m/s]
+   fileStream << setw(20) << uGradWall[i] ;     // velocity wall gradient, [1/s]
+   fileStream << setw(20) << uTau[i] ;               // friction velocity, [m/s]   
+   fileStream << endl ;
+  
+  }
+
+  fileStream.close() ;
+  cout << " Written file: " << fileName << endl ;
+
+ }
+ else                                                               // file bad!
+ {
+  cerr << " Output error with file: " << fileName << endl ;
+ }
+
+}
+
+// write final output to file
+
+void writeFinalOutput()
+{
+
+ stringstream fileString ;
+ string       fileName ;
+ ofstream     fileStream ;
+
+ // construct file name
+ 
+ fileString.clear() ;                                // delete previous contents
+ fileString << "final" ;                                        // set base name
+ //fileString <<  setfill('0') << setw(4) << it ;         // add time step label
+ fileString << ".dat" ;                                            // add suffix
+ fileString >> fileName ;
+
+ fileStream.open( fileName.c_str() ) ;
+
+ if ( fileStream )                                                 // file good?
+ {
+   
+  cout << " " << "pipeRadius"        << " = " << R    << endl ;
+  cout << " " << "pipeLenght"        << " = " << L    << endl ;
+  cout << " " << "nPointsRadius"     << " = " << nr   << endl ;
+  cout << " " << "nPointsCycle"      << " = " << nt   << endl ;
+  cout << " " << "writeProfile"      << " = " << wp   << endl ;
+  cout << " " << "frequency"         << " = " << f    << endl ;
+  cout << " " << "velocityAmplitude" << " = " << uAmp << endl ;
+  cout << " " << "kinViscosity"      << " = " << nu   << endl ;
+  cout << " " << "density"           << " = " << rho  << endl ;
+  
+  cout << "-----------------------------------------------------------" << endl ;
+ 
+  cout << left << scientific << setprecision(3)
+       << setw(18) << " pAmp = " 
+       << setw(11) << pAmp
+       << endl ;
+      
+  cout << left << scientific << setprecision(3)
+       << setw(18) << " pAmp / rho = " 
+       << setw(11) << pAmp / rho
+       << endl ;  
+ 
+  cout << left << scientific << setprecision(3)
+       << setw(18) << " uCenterLineMax = " 
+       << setw(11) << uCenterLineMax
+       << left << fixed << setprecision(1)
+       << setw(12) << " ->   Re = "
+       << setw(5) << ReCenterLine
+       << endl ;
+
+  cout << left << scientific << setprecision(3)
+       << setw(18) << " uPeak = " 
+       << setw(11) << uPeak
+       << left << fixed << setprecision(1)
+       << setw(12) << " ->   Re = "
+       << setw(5) << RePeak
+       << endl ;
+       
+  cout << left << scientific << setprecision(3)
+       << setw(18) << " uGradWallMax = " 
+       << setw(11) << uGradWallMax
+       << setw(12) << " ->   y+ = "
+       << setw(5) << yPlus
+       << endl ;
+      
+  cout << left << scientific << setprecision(3)
+       << setw(18) << " uTauMax = " 
+       << setw(11) << uTauMax
+       << left << fixed << setprecision(1)
+       << setw(12) << " ->   Re = "
+       << setw(5) << ReTau
+       << endl ;   
+
+  cout << setw(29) << " "
+       << left << fixed << setprecision(1)
+       << setw(12) << "      Wo = "
+       << setw(5) << Wo
+       << endl ;
+ 
+  cout << "-----------------------------------------------------------" << endl ;
+  cout << " HAGEN-POISEUILLE reference                                " << endl ;
+ 
+  cout << left << scientific << setprecision(3)
+       << setw(18) << " pAmp = " 
+       << setw(11) << pAmpHP
+       << endl ;
+ 
+  cout << left << scientific << setprecision(3)
+       << setw(18) << " uCenterLine = " 
+       << setw(11) << uCenterLineHP
+       << left << fixed << setprecision(1)
+       << setw(12) << " ->   Re = "
+       << setw(5) << ReCenterLineHP
+       << endl ;
+
+  cout << left << scientific << setprecision(3)
+       << setw(18) << " uPeak = " 
+       << setw(11) << uPeakHP
+       << left << fixed << setprecision(1)
+       << setw(12) << " ->   Re = "
+       << setw(5) << RePeakHP
+       << endl ;
+
+  cout << left << scientific << setprecision(3)
+       << setw(18) << " uGradWall = "
+       << setw(11) << uGradWallHP
+       << setw(12) << " ->   y+ = "
+       << setw(5) << yPlusHP
+       << endl ;
+      
+  cout << left << scientific << setprecision(3)
+       << setw(18) << " uTau = " 
+       << setw(11) << uTauHP
+       << left << fixed << setprecision(1)
+       << setw(12) << " ->   Re = "
+       << setw(5) << ReTauHP
+       << endl ; 
+
+  cout << setw(29) << " "
+       << left << fixed << setprecision(1)
+       << setw(12) << "      Wo = "
+       << setw(5) << 0.0
+       << endl ;
+
+  fileStream.close() ;
+  cout << " Written file: " << fileName << endl ;
+
+ }
+ else                                                               // file bad!
+ {
+  cerr << " Output error with file: " << fileName << endl ;
+ }
+
+}
+
+#endif
+
+/******************************************************************************\
+   end of file 
+\******************************************************************************/

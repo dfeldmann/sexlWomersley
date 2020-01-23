@@ -1,0 +1,34 @@
+/*****************************************************************************\
+
+   + case.in
+
+   + input file for osciPipeFlow4.cpp
+
+   + calculate analytical solution of the Navier-Stokes equation for a laminar
+     oscillating flow of a viscouse fluid in a rigid and straight circular pipe
+     geometry  
+
+   + daniel feldmann - 12th february 2010
+
+\******************************************************************************/
+
+// geometry
+pipeRadius             2.23e-3   [m]
+pipeLenght            12.67e-3   [m]
+
+// discretisation
+nPointsRadius       1000         [-]
+nPointsCycle        1000         [-]
+writeProfile           0         // 0 = no, 1 = full profile, 2 = halfe profile  
+
+// flow properties
+frequency              4.0       [Hz]
+pressureAmplitude      4.500408  [Pa]
+
+// fluid properties ( air at 30°C and 1013hPa )
+kinViscosity           1.63e-5   [m^2/s]
+density                1.15      [kg/m^3]
+
+/******************************************************************************\
+   end of file
+\******************************************************************************/

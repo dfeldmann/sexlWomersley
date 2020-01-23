@@ -1,0 +1,36 @@
+/*****************************************************************************\
+
+   + case.v8
+
+   + input file for osciPipeFlow8.cpp
+
+   + calculate analytical solution of the Navier-Stokes equation for a laminar
+     oscillating flow of a viscous fluid in a rigid and straight circular pipe
+     geometry according to Sexl and Womersley
+
+   + find solution for a given tidal volume oscillating at a given frequency
+
+   + daniel feldmann - 19th march 2012
+
+\******************************************************************************/
+
+// geometry
+pipeRadius             2.225634795e-3 [m]
+pipeLength            12.6654e-3      [m]
+
+// discretisation
+nPointsRadius        100              [-]
+nPointsCycle         100              [-]
+writeProfile           0              [-]          // 0 = no, 1 = full, 2 = half
+
+// flow properties
+osciFrequency          4.0            [Hz]
+tidalVolume          200.00e-6        [m^3]
+
+// fluid properties
+kinViscosity           1.63e-5        [m^2/s]         // air at 30°C and 1013hPa
+fluidDensity           1.15           [kg/m^3]        // air at 30°C and 1013hPa 
+
+/******************************************************************************\
+   end of file
+\******************************************************************************/

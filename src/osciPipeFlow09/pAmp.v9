@@ -1,0 +1,36 @@
+/*****************************************************************************\
+
+   + pAmp.v9
+
+   + input file for osciPipeFlow9.cpp
+
+   + calculate analytical solution of the Navier-Stokes equation for a laminar
+     oscillating flow of a viscouse fluid in a rigid and straight circular pipe
+     geometry
+     
+   + do not read radial grid from file, grid is irrelevant here, construct
+     equidistant points, though
+     
+   + find amplitude of oscillating pressure gradient for given a Re Wo
+     combination for the flowsi run osciPipe0088 
+
+   + daniel feldmann - 28th january 2014
+
+\******************************************************************************/
+
+// flow properties
+reynoldsNumber           750.0  
+womersleyNumber            3.25  
+
+// discretisation
+rsFileName             noFile  // rs.dat
+nPointsRadius            128   // irrelevant here
+nPointsCycle        4000000   // as high as possible to find correct peak phase
+
+// output
+referenceVelocity      uPeak   // ( uTau, uPeak )
+writeProfile               0   // ( 0, 1, 2 )  
+
+/******************************************************************************\
+   end of file
+\******************************************************************************/

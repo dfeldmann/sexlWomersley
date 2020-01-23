@@ -1,0 +1,33 @@
+/*****************************************************************************\
+
+   + case.in
+
+   + input file for osciPipeFlow10.cpp
+
+   + calculate analytical solution of the Navier-Stokes equation for a laminar
+     oscillating flow of a viscouse fluid in a rigid and straight circular pipe
+     geometry
+ 
+   + read radial positons of flowsi grid from file
+
+   + daniel feldmann - 19th february 2015
+
+\******************************************************************************/
+
+// flow properties
+reynoldsNumber        1440.00 
+womersleyNumber         13.00
+pressureAmplitude        4.0
+
+// discretisation
+rsFileName            noFile // rs.dat
+nPointsRadius           2000
+nPointsCycle            8000    
+
+// output
+writeProfile              0    // ( 0, 1, 2 )  
+nCycle                    1    // number of full oscillation cycle output
+
+/******************************************************************************\
+   end of file
+\******************************************************************************/
