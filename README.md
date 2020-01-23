@@ -1,5 +1,5 @@
 # sexlWomersley
-Small C++ tool box to evaluate the analytical solution to the incompressible Navier-Sokes equations for oscillating pipe flow accoring to Theodor Sexl and John Ronald Womersley for oscillating pipe flow.
+Small C++ tool box to evaluate the analytical solution to the incompressible Navier-Sokes equations for oscillating pipe flow according to Theodor Sexl and John Ronald Womersley.
 
 ## References
 
